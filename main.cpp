@@ -85,6 +85,11 @@ int main(int argc, char* argv[]) try
 			depth_data.convertTo(depth, CV_8U, 255.0 * depth_scale / MAX_DISTANCE);
 			cv::cvtColor(color_data, color, cv::COLOR_RGB2BGR);
 
+			// カラー画像の境界以外をぼかす
+			cv::Mat color_filtered;
+			cv::bilateralFilter(color, color_filtered, 9, 100.0, 10.0);
+			cv::bilateralFilter(color_filtered, color, 9, 100.0, 10.0);
+
 			// 画像を表示する
 			cv::imshow("depth", depth);
 			cv::imshow("color", color);
